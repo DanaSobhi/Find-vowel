@@ -1,0 +1,36 @@
+#!/bin/sh
+# Made By Dana Sobhi , program to count the vowels in a word  and get which line it is at 
+while true
+do
+	echo "enter file name"
+	read folder
+	count=0
+	if [ -f $folder ]; then
+		words=`cat $folder`
+		for i in $words
+			do 
+				r=$(echo $i  | grep -i '[aeiou]')  #grap any word have vowels case insensitive
+				y=`echo $i | grep -i '[aeiou]' |  tr -d 'bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ'`  #remove anything except the vowels 
+				echo $y | grep -o -i . |
+				{ 	while read char
+					do
+						sum=$(expr $count  + 1 )
+					count=$sum
+					done
+					if [ $count -ne '0' ]; then
+						t=$(cat $folder  | grep -n $r |cut -c1)
+						echo "number of vowels is" $count "in Line : " $t " - " $r 
+						count=0 
+					fi  
+				}
+			done
+	else echo "file does't exist"
+	fi
+	echo "do you want to continue? y/n "
+	read ans
+	if [ $ans = 'n' ]; then 
+		exit
+	fi
+done
+
+
